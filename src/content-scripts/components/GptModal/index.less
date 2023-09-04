@@ -1,0 +1,66 @@
+.gptContent {
+    width: 500px;
+    /* height: 300px; */
+    color: rgba(0, 0, 0, 0.88);
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px 0px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1000;
+    padding: 10px 16px;
+    position: absolute;
+}
+
+.content-show {
+    visibility: visible;
+}
+
+.content-noShow {
+    visibility: hidden;
+}
+
+.content-head {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    /* padding: 0 16px; */
+
+    .content-close {
+        cursor: pointer;
+    }
+}
+
+.content-main {
+    margin-top: 5px;
+
+    .source {
+        background: #f7f7f8;
+        padding: 10px;
+        border-radius: 5px;
+
+        .content {
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            border-radius: 5px;
+            padding: 2px;
+            font-size: 14px;
+        }
+    }
+
+    .answer .content {
+        margin-top: 10px;
+        background: #f7f7f8;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 14px;
+        height: 300px;
+        overflow-y: auto;
+
+        ol {
+            padding-left: 15px;
+        }
+    }
+}

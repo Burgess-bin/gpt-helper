@@ -1,0 +1,49 @@
+.menu {
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px 0px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 1.5;
+    font-variant: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    word-spacing: normal;
+    /* line-height: 1.5; */
+    text-align: start;
+    // visibility: visible !important;
+    white-space: normal;
+    word-break: break-word;
+    word-wrap: break-word;
+    -webkit-font-smoothing: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    pointer-events: all;
+    width: fit-content;
+    height: fit-content;
+    /* padding: 5px 10px; */
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1000;
+    border: none !important;
+}
+
+.menu span {
+    padding: 10px 20px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.menu span:hover {
+    background: #f7f7f8;
+}
+
+.menu-show {
+    visibility: visible;
+}
+
+.menu-noShow {
+    visibility: hidden;
+    transition: all .2s;
+    transform: scale(0.6);
+}
