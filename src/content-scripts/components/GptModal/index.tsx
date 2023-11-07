@@ -4,26 +4,57 @@ import { marked } from "marked";
 import "highlight.js/styles/paraiso-light.css";
 import javascript from "highlight.js/lib/languages/javascript";
 import hljs from "highlight.js/lib/core";
-
+import { Resizable } from 're-resizable';
+import Draggable from 'react-draggable';
 
 hljs.registerLanguage("javascript", javascript);
 
 interface GptModalType {
-    menuPos: { x: number, y: number },
+    modalPos: { x: number, y: number },
     gptContentVisible: boolean,
     updateGptModal: any,
     curGptType: string,
     sourceText: string,
     gptContent: string,
+    bingAnswerList: any
 }
 
-export default ({ menuPos, gptContentVisible, updateGptModal, curGptType, sourceText, gptContent }: GptModalType) => {
+export default ({ modalPos, gptContentVisible, bingAnswerList, updateGptModal, curGptType, sourceText, gptContent }: GptModalType) => {
+
+    // 继续聊天
+    const continueChat = () => {
+        // 发送消息给 background script
+        chrome.runtime.sendMessage({ info: 'continueChat' }, (res: any) => {
+            console.log('123', res)
+        });
+    }
+
     return (
-        <div className={`gptContent ${gptContentVisible ? 'content-show' : 'content-noShow'}`} style={{ left: `${menuPos.x}px`, top: `${menuPos.y}px` }}>
-            <div className="content-head">
-                <span>{curGptType}</span>
-                <span className="content-close" onClick={() => updateGptModal(false)}>X</span></div>
-            <div className="content-main">
+        <Draggable
+            defaultPosition={{ x: modalPos.x, y: modalPos.y }}
+            handle={'#handleDrag'}
+            bounds="#dragBorder"
+        >
+            <Resizable
+                defaultSize={{
+                    width: 500,
+                    height: 400,
+                }}
+                enable={{
+                    right: true,  // 允许右边框拖动
+                    bottom: true, // 允许下边框拖动
+                }}
+                minWidth={500}
+                minHeight={400}
+                className={`gptContent ${gptContentVisible ? 'content-show' : 'content-noShow'}`}
+                style={{ left: `${modalPos.x}px`, top: `${modalPos.y}px` }}
+            >
+                {/* <div className={`gptContent ${gptContentVisible ? 'content-show' : 'content-noShow'}`} style={{ left: `${modalPos.x}px`, top: `${modalPos.y}px` }}> */}
+                <div id='handleDrag' className="content-head">
+                    <span>{curGptType}</span>
+                    {/* <span id='handleDrag' /> */}
+                    <span className="content-close" onClick={() => updateGptModal(false)}>×</span>
+                </div>
                 <div className="source">
                     <div className="content">{sourceText}</div>
                 </div>
@@ -75,7 +106,21 @@ export default ({ menuPos, gptContentVisible, updateGptModal, curGptType, source
                         })
                     }} />
                 </div>
-            </div>
-        </div>
+
+                <div className='content-bing'>
+                    {bingAnswerList.slice(0, 3).map((item: any) => {
+                        return <div key={item.title}><a target="_blank" href={item.url}>{item.title}</a></div>
+                    })}
+                </div>
+
+                {/* footer */}
+                <div className='content-footer'>
+                    <span onClick={() => continueChat()}>继续聊天</span>
+                    <span>美信 @zhaobin39</span>
+                    <span>复制</span>
+                </div>
+                {/* </div> */}
+            </Resizable>
+        </Draggable>
     )
 }

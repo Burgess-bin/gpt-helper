@@ -1,5 +1,5 @@
 {
-  "name": "crx-react",
+  "name": "gpt-helper",
   "description": "A Chrome extension demo.",
   "version": "1.0.0",
   "icons": {
@@ -8,11 +8,10 @@
     "128": "assets/icons/icon128.png"
   },
   "action": {
-    "default_popup": "../popup.html",
     "default_title": "Click to open panel"
   },
   "background": {
-    "service_worker": "background.ts"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -30,6 +29,6 @@
   "manifest_version": 3,
   "permissions": ["sidePanel"],
   "side_panel": {
-    "default_path": "sidePanel/sidepanel.html"
+    "default_path": "../sidepanel.html"
   }
 }

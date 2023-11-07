@@ -17,6 +17,6 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["vite-plugin-crx-mv3-main"],
+  "exclude": ["vite-plugin"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

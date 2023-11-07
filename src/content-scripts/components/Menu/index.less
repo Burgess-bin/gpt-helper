@@ -1,8 +1,9 @@
 .menu {
+    white-space: nowrap;
     background: #fff;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px 0px;
     color: rgba(0, 0, 0, 0.88);
-    font-size: 1.5;
+    font-size: 15px;
     font-variant: normal;
     font-weight: 400;
     letter-spacing: normal;
@@ -25,10 +26,14 @@
     position: absolute;
     z-index: 1000;
     border: none !important;
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 .menu span {
-    padding: 10px 20px;
+    font-size: 15px;
+    white-space: nowrap;
+    padding: 8px 15px;
     cursor: pointer;
     display: inline-block;
     border-radius: 5px;
@@ -44,6 +49,6 @@
 
 .menu-noShow {
     visibility: hidden;
-    transition: all .2s;
-    transform: scale(0.6);
+    // transition: all .2s;
+    // transform: scale(0.6);
 }

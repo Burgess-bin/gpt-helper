@@ -10,14 +10,20 @@ export default function ContentScriptApp() {
   menuVisibleRef.current = menuVisible;
   //menu位置；
   const [menuPos, setMenuPos] = useState({ x: 0, y: 0 })
+  //modal位置
+  const [modalPos, setModalPos] = useState({ x: 0, y: 0 })
   //当前 选择 模式；
   const [curGptType, setCurGptType] = useState('')
   //当前 选中 文本；
   const [sourceText, setSourceText] = useState('');
   // gpt 回答;
   const [gptContent, setGptContent] = useState('');
+  // bing 搜索结果;
+  const [bingAnswerList, setBingAnswerList] = useState([]);
   // gpt 弹窗 显示隐藏；
   const [gptContentVisible, setGptContentVisible] = useState(false);
+  const gptContentVisibleRef = useRef<any>();
+  gptContentVisibleRef.current = gptContentVisible
 
   //更新 gpt 弹窗 状态;
   const updateGptModal = (visible: boolean) => {
@@ -33,10 +39,16 @@ export default function ContentScriptApp() {
   const updateGptType = (type: string) => {
     setCurGptType(type);
   }
+  //更新gptConten；
+  const updateBing = (list: any) => {
+    setBingAnswerList(list);
+  }
 
   //鼠标左键弹起事件；
   const onMouseUp = (e: any) => {
-    console.log('123356789', e);
+    if (gptContentVisibleRef.current) {
+      return;
+    }
     //点击当前menu，不处理
     if (e.target.id && e.target.id.includes('gpt_')) {
       return;
@@ -52,10 +64,31 @@ export default function ContentScriptApp() {
     if (!text) {
       return;
     }
-
-    setMenuPos({ x: e.pageX, y: e.pageY });
+    let pagex = e.pageX + 10;
+    let pagey = e.pageY + 10;
+    if (e.pageX + 230 >= window.innerWidth) {
+      pagex = e.pageX - 240;
+    }
+    if (e.y + 40 >= window.innerHeight) {
+      pagey = e.pageY - 50;
+    }
+    setMenuPos({ x: pagex, y: pagey });
     setMenuVisible(true);
     setSourceText(text);
+
+
+    // console.log('123356789', e, e.pageY, window.innerHeight);
+
+    let modalx = e.pageX + 10;
+    let modaly = e.y + 10;
+    if (e.pageX + 500 >= window.innerWidth) {
+      modalx = window.innerWidth - 520;
+    }
+    if (e.y + 400 >= window.innerHeight) {
+      modaly = window.innerHeight - 410;
+    }
+    setModalPos({ x: modalx, y: modaly })
+    console.log('567788', e.y, window.innerHeight);
   };
 
   //关闭弹窗；
@@ -77,6 +110,7 @@ export default function ContentScriptApp() {
 
   return (
     <div>
+      <div id="dragBorder" style={{ width: 'calc(100vw - 30px)', height: 'calc(100vh - 20px)', position: 'fixed', left: '0', top: '0', pointerEvents: 'none', padding: '10px' }} />
       <Menu
         menuVisible={menuVisible}
         menuPos={menuPos}
@@ -86,14 +120,17 @@ export default function ContentScriptApp() {
         sourceText={sourceText}
         gptContent={gptContent}
         closeModal={closeModal}
+        updateBing={updateBing}
+        gptContentVisible={gptContentVisibleRef.current}
       />
       <GptModal
-        menuPos={menuPos}
+        modalPos={modalPos}
         gptContentVisible={gptContentVisible}
         updateGptModal={updateGptModal}
         curGptType={curGptType}
         sourceText={sourceText}
         gptContent={gptContent}
+        bingAnswerList={bingAnswerList}
       />
     </div>
   )

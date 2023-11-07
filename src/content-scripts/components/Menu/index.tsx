@@ -8,10 +8,12 @@ interface menuType {
     sourceText: string,
     gptContent: string,
     updateGptType: any,
-    closeModal: any
+    closeModal: any,
+    updateBing: any,
+    gptContentVisible: boolean
 }
 
-export default ({ menuVisible, menuPos, updateGptConten, updateGptModal, sourceText, gptContent, updateGptType, closeModal }: menuType) => {
+export default ({ menuVisible, menuPos, gptContentVisible, updateGptConten, updateGptModal, sourceText, gptContent, updateGptType, closeModal, updateBing }: menuType) => {
 
     //处理value
     function formatVal(val: string) {
@@ -22,9 +24,9 @@ export default ({ menuVisible, menuPos, updateGptConten, updateGptModal, sourceT
         const dataList = val.split("data: ");
         dataList.forEach((item) => {
             if (item && item.trim() && item.includes("delta")) {
-                console.log("123", item);
+                // console.log("123", item);
                 const data = JSON.parse(item);
-                console.log(data);
+                // console.log(data);
                 res += data.choices[0].delta.content || "";
             }
         });
@@ -33,6 +35,13 @@ export default ({ menuVisible, menuPos, updateGptConten, updateGptModal, sourceT
 
     //gpt问答；
     const gptAnswer = async (queryVal: string) => {
+        chrome.runtime.sendMessage({ info: 'bingSearch', query: sourceText }, (res: any) => {
+            if (res && res.list) {
+                const resList = JSON.parse(res.list);
+                console.log('bingSearch', resList);
+                updateBing(resList);
+            }
+        });
         //   const prompt = `Translate this into Simplified Chinese:\n\n${text}\n\n`;
         //   const translate = `java知识体系`;
         const body = {
@@ -81,10 +90,11 @@ export default ({ menuVisible, menuPos, updateGptConten, updateGptModal, sourceT
         closeModal(false);
         updateGptType(type);
         updateGptModal(true);
+        updateBing([]);
         const translate =
             type == '翻译' ? `Translate this into Simplified Chinese:\n\n${sourceText}\n\n` :
                 type == '解释' ? `解释: ${sourceText}` :
-                    `Summarize the following text in Simplified Chinese:\n\n${sourceText}\n\n`
+                    `总结以下文本，输出内容长度小于100字符:\n\n${sourceText}\n\n`
             ;
         updateGptConten('');
         gptAnswer(translate);
