@@ -6,7 +6,7 @@
 
 #### 鼠标划词选中可选项：
 
-<img src="./public/demo1.png" alt="鼠标划词选中可选项" width="600" />
+<img src="./public/deom1.png" alt="鼠标划词选中可选项" width="600" />
 
 #### AI 解释 + 网页搜索内容：
 
@@ -76,7 +76,7 @@ vite-plugin 需要先安装依赖，并 build，后续对项目安装依赖，�
 
 ### 配置自定义 AI 接口
 
-![配置自定义AI接口](/public/demo4.png)
+<img src="./public/demo4.png" alt="配置自定义AI接口" width="600" />
 
 ```bash
 # development
