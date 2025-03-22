@@ -2,13 +2,21 @@
 
 ## 🚀 功能特性
 
+### demo 示例；
+
+#### 鼠标划词选中可选项：
+
+<img src="./public/demo1.png" alt="鼠标划词选中可选项" width="600" />
+
+#### AI 解释 + 网页搜索内容：
+
+<img src="./public/demo2.png" alt="AI解释 + 网页搜索内容" width="600" />
+
+#### 侧边栏可集成任意 AI 网站：
+
+<img src="./public/demo3.png" alt="侧边栏可集成任意AI网站" width="600" />
+
 ### 核心功能
-
-![鼠标划词选中可选项](public/deom1.png)
-
-![AI解释 + 网页搜索内容](public/demo2.png)
-
-![侧边栏可集成任意AI网站](public/demo3.png)
 
 - 网页文本即时翻译（中英互译）
 - 选中文本智能解释
