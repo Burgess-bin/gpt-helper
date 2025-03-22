@@ -1,8 +1,8 @@
 export default () => {
     return (
         <div>
-            <iframe style={{ width: '100%', height: 'calc(100vh - 40px)' }} src="https://btri-dev.midea.com/web/btri-MBTPedia" />
-            <div style={{ textAlign: 'center' }}>美信 @zhaobin39</div>
+            <iframe frameBorder={0} style={{ width: '100%', height: 'calc(100vh - 40px)' }} src="https://yuanbao.tencent.com/" />
+            <div style={{ textAlign: 'center' }}>@zhaob1017</div>
         </div>
     )
 }

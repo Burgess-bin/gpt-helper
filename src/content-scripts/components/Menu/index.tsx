@@ -17,35 +17,46 @@ export default ({ menuVisible, menuPos, gptContentVisible, updateGptConten, upda
 
     //处理value
     function formatVal(val: string) {
-        let res = "";
-        if (!val || !val.trim()) {
-            return "";
-        }
-        const dataList = val.split("data: ");
-        dataList.forEach((item) => {
-            if (item && item.trim() && item.includes("delta")) {
-                // console.log("123", item);
-                const data = JSON.parse(item);
-                // console.log(data);
-                res += data.choices[0].delta.content || "";
+        try {
+            let res = "";
+            if (!val || !val.trim()) {
+                return "";
             }
-        });
-        return res;
-    }
+            const dataList = val.split("data: ");
+            dataList.forEach((item) => {
+                if (item && item.trim() && item.includes("delta")) {
+                    // console.log("123", item);
+                    const data = JSON.parse?.(item);
+                    // console.log(data);
+                    res += data?.choices?.[0]?.delta?.content || "";
+                }
+            });
+            return res || "";
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     //gpt问答；
     const gptAnswer = async (queryVal: string) => {
+        console.log('Sending message to background script');
+        // 发送消息
         chrome.runtime.sendMessage({ info: 'bingSearch', query: sourceText }, (res: any) => {
-            if (res && res.list) {
-                const resList = JSON.parse(res.list);
-                console.log('bingSearch', resList);
-                updateBing(resList);
+            console.log('Received response from background script', res);
+            try {
+                if (res && res.list) {
+                    const resList = JSON.parse(res.list);
+                    console.log('bingSearch', resList);
+                    updateBing(resList);
+                }
+            } catch (error) {
+                console.error('JSON parse error:', error);
             }
         });
         //   const prompt = `Translate this into Simplified Chinese:\n\n${text}\n\n`;
         //   const translate = `java知识体系`;
         const body = {
-            model: "gpt-3.5-turbo-0301",
+            model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: queryVal }],
             stream: true,
             // prompt: prompt,
@@ -56,16 +67,15 @@ export default ({ menuVisible, menuPos, gptContentVisible, updateGptConten, upda
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
-
+                // "User-Agent": "Apifox/1.0.0 (https://apifox.com)",
                 Authorization:
-                    "Bearer " + "sk-MSkF51kARCq5u9QrX76wuxZQpPSszrBSg0vkZ3bPY9HqDZZt",
+                    "Bearer " + "you key",
             },
             body: JSON.stringify(body),
             redirect: "follow",
         };
         const response: any = await fetch(
-            "https://api.chatanywhere.com.cn/v1/chat/completions",
+            "https://api.example.com",
             options
         );
         const reader = await response.body.getReader();
@@ -78,7 +88,8 @@ export default ({ menuVisible, menuPos, gptContentVisible, updateGptConten, upda
                     return;
                 }
                 let res = new TextDecoder("utf-8").decode(value);
-                content += formatVal(res);
+                const formData = formatVal(res);
+                content += formData || "";
                 updateGptConten(content);
                 return pump();
             });

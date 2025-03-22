@@ -116,7 +116,7 @@ export default ({ modalPos, gptContentVisible, bingAnswerList, updateGptModal, c
                 {/* footer */}
                 <div className='content-footer'>
                     <span onClick={() => continueChat()}>继续聊天</span>
-                    <span>美信 @zhaobin39</span>
+                    <span>@zhaob1017</span>
                     <span>复制</span>
                 </div>
                 {/* </div> */}
