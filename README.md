@@ -4,11 +4,11 @@
 
 ### 核心功能
 
-![鼠标划词选中可选项](/public/deom1.png)
+![鼠标划词选中可选项](public/deom1.png)
 
-![AI解释 + 网页搜索内容](/public/demo2.png)
+![AI解释 + 网页搜索内容](public/demo2.png)
 
-![侧边栏可集成任意AI网站](/public/demo3.png)
+![侧边栏可集成任意AI网站](public/demo3.png)
 
 - 网页文本即时翻译（中英互译）
 - 选中文本智能解释
